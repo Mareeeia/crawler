@@ -4,16 +4,14 @@ import com.config.CrawlerProperties;
 import com.config.WebCrawlerConfiguration;
 import com.parsing.URLExtractor;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
@@ -25,51 +23,59 @@ public class ThreadedWebCrawler {
 
     private final URLExtractor urlExtractor;
     private final ThreadPoolExecutor threadPoolExecutor;
-    private final ConcurrentLinkedQueue<String> toCrawl;
-    private final ConcurrentHashMap<String, Integer> visited;  //Will be used as a set
+    private final String rootUrl;
+    private final ConcurrentHashMap<String, Boolean> visited;  //Will be used as a set
+    private final ConcurrentHashMap<String, Boolean> toVisit;  //Will be used as a set
 
     public ThreadedWebCrawler(URLExtractor urlExtractor,
                               ThreadPoolExecutor threadPoolExecutor,
                               CrawlerProperties crawlerProperties) {
         this.urlExtractor = urlExtractor;
         this.threadPoolExecutor = threadPoolExecutor;
-        this.toCrawl = new ConcurrentLinkedQueue<>(List.of(crawlerProperties.getStartingWebsite()));
+        this.rootUrl = crawlerProperties.getStartingWebsite();
         this.visited = new ConcurrentHashMap<>();
+        this.toVisit = new ConcurrentHashMap<>();
     }
 
+    @SneakyThrows
     @EventListener(ApplicationReadyEvent.class)
     public void concurrentCrawl() {
         try {
-//            while (this.toCrawl.size() <= this.threadPoolExecutor.getMaximumPoolSize()) {
-//                this.crawlDFS(); //TODO: Do I need this? Make sure doesn't loop infinitely
-//            }
-            while (!this.toCrawl.isEmpty() && !this.threadPoolExecutor.isTerminated()) {
-                this.threadPoolExecutor.execute(this::crawlDFS);
-            }
+            this.toVisit.put(this.rootUrl, true);
+            this.threadPoolExecutor.execute(() -> this.crawl(this.rootUrl));
         } finally {
+            while (this.toVisit.size() > 0) {
+                Thread.sleep(10);
+            }
             this.threadPoolExecutor.shutdown();
         }
     }
 
-    private void crawlDFS() {
-        var url = this.toCrawl.poll();
+    private void crawl(String url) {
         if (url != null && !this.visited.containsKey(url)) {
-            Set<String> urls = this.urlExtractor.extractUrlsFromPage(url).stream()
-                    .filter(newUrl -> !this.visited.containsKey(newUrl)).collect(Collectors.toSet());
-            this.toCrawl.addAll(urls);
-            this.visited.put(url, 1);
-            log.info(generateLogString());
+            try {
+                this.visited.put(url, true);
+                this.urlExtractor.extractUrlsFromPage(url).stream()
+                        .filter(newUrl -> !this.visited.containsKey(newUrl) && !this.toVisit.containsKey(newUrl)).collect(Collectors.toSet())
+                        .forEach(newUrl -> {
+                            toVisit.put(newUrl, true);
+                            this.threadPoolExecutor.execute(() -> this.crawl(newUrl));
+                        });
+                log.info(generateLogString());
+            } finally {
+                this.toVisit.remove(url);
+            }
         }
     }
 
     private String generateLogString() {
-        return String.format("[monitor] [%d/%d] Active: %d, Completed: %d, Task: %d, ToVisit: %d, Visited: %d",
+        return String.format("[monitor] [%d/%d] Active: %d, Completed: %d, Task: %d, Visited: %d, ToVisit: %d",
                 this.threadPoolExecutor.getPoolSize(),
                 this.threadPoolExecutor.getCorePoolSize(),
                 this.threadPoolExecutor.getActiveCount(),
                 this.threadPoolExecutor.getCompletedTaskCount(),
                 this.threadPoolExecutor.getTaskCount(),
-                this.toCrawl.size(),
-                this.visited.size());
+                this.visited.size(),
+                this.toVisit.size());
     }
 }

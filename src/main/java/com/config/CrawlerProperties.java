@@ -15,7 +15,7 @@ public class CrawlerProperties {
     private final Integer threadsMax = 50;
     private final Long keepAlive = 100L;
     private final Long blockTime = 1000L;
-    private final Integer queueCapacity = 50000;
+    private final Integer queueCapacity = 500000;
     private final Long sleepWhenThrottled = 30L;
     private final Integer pageRetries = 3;
 

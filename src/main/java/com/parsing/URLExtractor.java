@@ -23,7 +23,7 @@ public class URLExtractor {
 
     public List<String> extractUrlsFromPage(String urlString) {
         var urlList = this.pageLoader.loadLines(urlString);
-        log.info(String.format("Page %s contains the links: %s", urlString, urlList));
+//        log.info(String.format("Page %s contains the links: %s", urlString, urlList));
         return urlList.stream()
                 .filter(url -> this.urlValidator.isRequiredUrl(url))
                 .toList();
