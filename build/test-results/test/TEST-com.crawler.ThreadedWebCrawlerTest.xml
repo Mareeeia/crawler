@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.crawler.ThreadedWebCrawlerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-07-23T10:28:16" hostname="Marias-MacBook-Pro.local" time="0.685">
+  <properties/>
+  <testcase name="testCrawlsAllLinks()" classname="com.crawler.ThreadedWebCrawlerTest" time="0.685"/>
+  <system-out><![CDATA[11:28:16.740 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 0, Task: 20, Visited: 2, ToVisit: 20
+11:28:16.740 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 0, Task: 20, Visited: 2, ToVisit: 20
+11:28:16.743 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 1, Task: 20, Visited: 3, ToVisit: 19
+11:28:16.744 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 2, Task: 20, Visited: 4, ToVisit: 18
+11:28:16.744 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 3, Task: 20, Visited: 5, ToVisit: 16
+11:28:16.744 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 4, Task: 20, Visited: 6, ToVisit: 16
+11:28:16.745 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 6, Task: 20, Visited: 8, ToVisit: 14
+11:28:16.745 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 6, Task: 20, Visited: 8, ToVisit: 14
+11:28:16.745 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 7, Task: 20, Visited: 9, ToVisit: 13
+11:28:16.745 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 8, Task: 20, Visited: 10, ToVisit: 12
+11:28:16.746 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 9, Task: 20, Visited: 11, ToVisit: 11
+11:28:16.746 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 10, Task: 20, Visited: 12, ToVisit: 10
+11:28:16.746 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 11, Task: 20, Visited: 13, ToVisit: 9
+11:28:16.746 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 12, Task: 20, Visited: 14, ToVisit: 8
+11:28:16.747 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 14, Task: 20, Visited: 16, ToVisit: 6
+11:28:16.747 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 14, Task: 20, Visited: 16, ToVisit: 6
+11:28:16.747 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 15, Task: 20, Visited: 17, ToVisit: 5
+11:28:16.747 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 16, Task: 20, Visited: 18, ToVisit: 4
+11:28:16.748 [pool-1-thread-1] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 17, Task: 20, Visited: 19, ToVisit: 3
+11:28:16.748 [pool-1-thread-2] INFO com.crawler.ThreadedWebCrawler - [monitor] [2/2] Active: 2, Completed: 18, Task: 20, Visited: 20, ToVisit: 2
+11:28:16.748 [Test worker] INFO com.crawler.ThreadedWebCrawler - Finished crawling, printing results.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
