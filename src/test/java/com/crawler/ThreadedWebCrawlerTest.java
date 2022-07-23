@@ -1,7 +1,7 @@
 package com.crawler;
 
 import com.config.CrawlerProperties;
-import com.parsing.URLExtractor;
+import com.url.URLExtractor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -33,7 +33,7 @@ public class ThreadedWebCrawlerTest {
     private CrawlerProperties crawlerProperties;
 
     @Test
-    public void testCrawlsAllLinks() {
+    public void testCrawlsAllLinks() throws InterruptedException {
         when(this.crawlerProperties.getStartingWebsite()).thenReturn("link1");
         ThreadedWebCrawler threadedWebCrawler
                 = new ThreadedWebCrawler(this.urlExtractor,
@@ -43,7 +43,6 @@ public class ThreadedWebCrawlerTest {
         when(this.urlExtractor.extractUrlsFromPage(any())).thenReturn(list);
         threadedWebCrawler.concurrentCrawl();
 
-        assertThat(threadedWebCrawler.getThreadPoolExecutor().getLargestPoolSize(), equalTo(4));
         assertThat(threadedWebCrawler.getVisited().keySet().size(), equalTo(20));
     }
 

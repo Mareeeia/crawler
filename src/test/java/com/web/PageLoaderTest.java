@@ -3,6 +3,7 @@ package com.web;
 import com.config.CrawlerProperties;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
+import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +39,15 @@ public class PageLoaderTest {
     public void testReturnsEmptyFor404() throws IOException {
         var pageLoader = new PageLoader(crawlerProperties, jsoupClient);
         when(this.jsoupClient.getDoc(SAMPLE_URL)).thenThrow(new HttpStatusException("404", 404, ""));
+        when(this.crawlerProperties.getPageRetries()).thenReturn(3);
+
+        assertThat(pageLoader.loadLines(SAMPLE_URL), empty());
+    }
+
+    @Test
+    public void testReturnsEmptyForUnsupportedMedia() throws IOException {
+        var pageLoader = new PageLoader(crawlerProperties, jsoupClient);
+        when(this.jsoupClient.getDoc(SAMPLE_URL)).thenThrow(new UnsupportedMimeTypeException("mp3", "mp3", SAMPLE_URL));
         when(this.crawlerProperties.getPageRetries()).thenReturn(3);
 
         assertThat(pageLoader.loadLines(SAMPLE_URL), empty());

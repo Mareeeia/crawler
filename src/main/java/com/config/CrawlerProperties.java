@@ -11,8 +11,8 @@ public class CrawlerProperties {
 
     private final String permittedDomain = "monzo.com";
     private final String startingWebsite = "http://monzo.com";
-    private final Integer threadsMin = 10;
-    private final Integer threadsMax = 50;
+    private final Integer threadsMin = 20;
+    private final Integer threadsMax = 40;
     private final Long keepAlive = 100L;
     private final Long blockTime = 1000L;
     private final Integer queueCapacity = 500000;

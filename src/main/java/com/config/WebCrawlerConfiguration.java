@@ -1,8 +1,7 @@
 package com.config;
 
 
-import com.parsing.URLExtractor;
-import com.parsing.URLValidator;
+import com.url.URLValidator;
 import com.web.PageLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,24 +31,13 @@ public class WebCrawlerConfiguration {
     }
 
     @Bean
-    public URLExtractor urlExtractor() {
-        return new URLExtractor(this.pageLoader(), this.urlFilter());
-    }
-
-    @Bean
     public PageLoader pageLoader() {
-        return new PageLoader(this.crawlerProperties, this.jsoupClient());
+        return new PageLoader(this.crawlerProperties, new PageLoader.JsoupClient());
     }
 
     @Bean
     public URLValidator urlFilter() {
-        //TODO: Maybe more domains?
         return new URLValidator(this.crawlerProperties.getPermittedDomain());
-    }
-
-    @Bean
-    public PageLoader.JsoupClient jsoupClient() {
-        return new PageLoader.JsoupClient();
     }
 
 }
